@@ -36,6 +36,7 @@ public class ContactListActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> launcherforEdit;
     //position for edit data
     private int iPosition;
+    private int idDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,26 +65,18 @@ public class ContactListActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(int position, View v) {
-                //code here
-                //String name = arrayList.get(position).getName();
                 recyclerView = findViewById(R.id.rcListContacts);
                 AlertDialog.Builder alertDialog = new  AlertDialog.Builder(ContactListActivity.this);
                 alertDialog.setTitle("Bạn có chắc muốn xóa");
                 alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
                 //alertDialog.setMessage(selectedValue);
+                idDelete = arrayList.get(position).getID();
                 alertDialog.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        int id = arrayList.get(position).getID();
-                        String name = arrayList.get(position).getName();
-                        String phone = arrayList.get(position).getPhoneNumber();
-                        db.deleteContact(id);
-                        Contact x= new Contact(id, name, phone);
+                        Contact x = arrayList.get(position);
+                        db.deleteContact(idDelete);
                         arrayList.remove(x);
                         contactAdapter.notifyDataSetChanged();
-//                        recyclerView = findViewById(R.id.rcListContacts);
-//                        recyclerView.setAdapter(contactAdapter);
-//                        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-//                        recyclerView.setLayoutManager(new LinearLayoutManager(ContactListActivity.this));
 
                     } });
                 alertDialog.setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
